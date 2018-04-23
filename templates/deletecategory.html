@@ -1,0 +1,24 @@
+{% extends "main.html"%}
+{% include "header.html" %}
+{% block content %}
+		{% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+		<Form method = 'Post'>
+		<H1> Are You Sure You Want to Delete The {{category.name}}? </H1>
+
+		<input type ="submit" value='Yes'>
+
+        <a href = '/'> Cancel </a>
+
+        </Form>
+
+{% endblock %}

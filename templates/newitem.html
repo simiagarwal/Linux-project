@@ -1,0 +1,33 @@
+{% extends "main.html" %}
+{% include "header.html" %}
+{% block content %}
+        <h1>Create a new item for the catalog</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+          
+            <ul>
+            {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+
+
+        <form action ="#" method ='POST'>
+            
+            <p> Item Name:</p>
+            <input type = 'text' size = '30' name ='name'>
+            <p> Item description:</p>
+            <textarea rows = '5' cols='50' name = 'description'> 
+             
+            </textarea>
+            <p>Price</p>
+            <input type = 'text' size = '30' name ='price'>
+            <p>Category</p>
+            <input type = 'text' size = '30' name ='category'>
+            <br /><br />
+            <button type="submit" >Create</button>
+            <a href="/catalog/{{ category_type }}">Cancel</a>
+        </form>
+    {% endblock %}

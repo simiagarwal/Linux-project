@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+	</head>
+	<body>
+		
+		<div class="container">
+			<div class = "row" class= "nav">
+				
+				
+				<div class="col-md-4"><a href='/about'>About us</a></div>
+     			
+     			<div class="col-md-4"><a href="/contactus">Contact us</a></div>
+
+     			<div class="col-md-4"><a href="/partners">Partners </a></div>
+     		
+     			
+			</div>
+			<div class="row">
+				
+
+				{% block content %}
+				
+
+				{% endblock %}
+			</div>
+
+		</div>
+	</body>
+</html>

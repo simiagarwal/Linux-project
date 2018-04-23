@@ -1,0 +1,39 @@
+{% extends "main.html" %}
+{% include "header.html" %}
+{% block content %}
+<br>
+<br>
+
+		{% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+
+<div class="editItem">
+
+	<h1>Edit {{item.name}} Item</h1>
+<form action ="#" method ='POST'>
+		
+		<input type="text" name="name" placeholder="{{item.name}}" required>
+		
+		<input type="text" name="price" placeholder="{{item.price}}" required>
+		
+		<textarea rows = '5' cols='50' name = 'description' placeholder="{{item.description}}" required></textarea>
+
+		<br><br>
+		<button a href="{{url_for('showItem',category_id=item.category_id)}}">Save</button>
+		
+		<button><a href = '/'>Cancel</a></button>
+	
+
+	</form>
+
+	</div>
+{% endblock %}

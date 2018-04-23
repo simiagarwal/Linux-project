@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+{% include "header.html" %}
+{% block content %}
+<h1> {{category.name.title()}}</h1>
+
+	{% for item in items %}
+				<ul><b Name:>{{item.name}}</ul>
+				 <ul><b price:>{{item.price}}</ul>
+				 <ul><b Description:>{{item.description}}</ul>
+				 <br><br>
+    {% endfor %}
+
+
+
+
+
+
+
+
+{% endblock %}

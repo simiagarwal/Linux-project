@@ -1,0 +1,57 @@
+<!-- main.html contains all necessary css or javascript links -->
+{% extends "main.html" %}
+<!-- header.html includes the header -->
+{% include "header.html" %}
+{% block content %}
+   <br> <a href="/">Home</a><br><br><br>
+		  <!-- Grab the flash messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    {% endwith %}
+	
+<div class="row">
+    <div class="col-md-3"><a href="{{url_for('editCategory',category_id=category.id)}}">Edit the Category</div>
+         
+    <div class="col-md-3"> <a href="{{url_for('deleteCategory',category_id=category.id)}}">Delete the Category</div>
+  
+      <div class="col-md-3"> <a href="{{url_for('newCategory',category_id=category.id)}}">Create a new Category</div>
+    <div class="col-md-3"><a href="{{url_for('newItem',category_id=category.id)}}">Create a new Item</div>
+</div>
+   
+   <div class="row"><h2>Items for {{category.name}} are:</h2></div>
+      
+      
+        <!-- Show all items of that category -->
+      {% for item in items %}
+      <div class="row">   
+        <div class="col-md-12"><a href="{{url_for('getDescription',category_id=item.category.id, item_id=item.id)}}"><h2>{{item.name}}</h2></div>
+    
+      </div>       
+       <div class="row">
+        <div  class="col-md-3"><h4>{{item.price}}</h4></div>
+         
+      
+        <div class="col-md-3"><button><a href="{{url_for('editItem', category_id=category.id, item_id=item.id)}}" >Edit</button></div>
+            
+          <div class="col-md-3"><button><a href="/catalog/{{ category_type }}">Cancel</button></div>
+            
+            <div class="col-md-3"><button><a href="{{url_for('deleteItem', category_id=category.id, item_id=item.id)}}" >Delete the item</button></div>
+          
+      </div>
+    
+      {% endfor %}
+  
+    
+  
+        
+  
+
+        
+
+{% endblock %}

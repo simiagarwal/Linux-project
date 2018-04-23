@@ -1,0 +1,43 @@
+<!-- main.html contains all necessary css or javascript links -->
+{% extends "main.html" %}
+<!-- header.html includes the header -->
+{% include "header.html" %}
+{% block content %}
+   <br> <a href="/">Home</a><br><br><br>
+		  <!-- Grab the flash messages -->
+         {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+<div class ="row">
+	<div class="col-md-6 restaurant-list">
+		<h1>Categories</h1>
+
+	{% for category in categories %}
+		  
+    	<a href="{{url_for('showItem',category_id=category.id)}}"><h2>{{ category.name }}</h2>
+			
+	{% endfor %}
+	
+	</div> 
+				 
+	
+	<div class="col-md-6 restaurant-list"> 
+	<h1>Recently added items</h1>
+		{% for item in items %}
+
+		 <h2>{{item.name}} {% raw %} ( {% endraw %} {{ item.category.name }} {% raw %} ) {% endraw %} </h2>	
+		
+        {% endfor %}
+	</div>	
+					
+					
+</div>
+	
+{% endblock %}
