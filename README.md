@@ -1,126 +1,173 @@
 
 Linux-project
-2
+
 Description:
-3
+
 This project is to deploy a Flask application using Ubuntu and Apache with Amazon Lightsail.
-4
-​
-5
+
 IP & Hostname
-6
+
 Host Name: ec2-54-191-206-214.us-west-2.compute.amazonaws.com
-7
+
 IP Address: 54.191.206.214
-8
+
 Linux Configuration
-9
-​
-10
-On Mac you will want to store all of your SSH Keys in the .ssh folder which is located in a folder called .ssh at the root of your user directory. For example Macintosh HD/Users/[Your username]/.ssh/
-11
-​
-12
-To make our key secure type $ chmod 600 ~/.ssh/udacity.pem into the terminal.
-13
-From here we will log into the server as the user ubuntu with our key. From the terminal type $ ssh -i ~/.ssh/udacity.pem ubuntu@18.188.169.39
-14
-Once logged in you will see the command line change to root@[ip-your-private-ip]:$
-15
-Lets switch to the root user by typing sudo su -
-16
-As Udacity requires we need to create a user called grader. From the command line type $ sudo adduser grader. It will ask for 2 passwords and then a few other fields which you can leave blank.
-17
-We must create a file to give the user grader superuser privileges. To do this type $ sudo nano /etc/sudoers.d/grader. This will create a new file that will be the superuser configuration for grader. When nano opens type grader ALL=(ALL:ALL), to save the file hit Ctrl-X on your keyboard, type 'Y' to save, and return to save the filename.
-18
-One of the first things you should always do when configuring a Linux server is updating it's package list, upgrading the current packages, and install new updates with these three commands:
-19
+
+
+ Create a user called grader. 
+ $ sudo adduser grader. 
+create a file to give the user grader superuser privileges.  
+$ sudo nano /etc/sudoers.d/grader. T. 
+When nano opens type grader ALL=(ALL:ALL)
+
+Updating package list, upgrading the current packages, and install new updates with these three commands:
+
 $ sudo apt-get update
-20
+
 $ sudo apt-get upgrade
-21
+
 $ sudo apt-get dist-upgrade
-22
-​
-23
-We will also install a useful tool called Finger with the command $ sudo apt-get install finger. This tool will allow us to see the users on this server.
-24
-Now we must create an SSH Key for our new user grader. From a new terminal run the command: $ ssh-keygen -f ~/.ssh/udacity.rsa
-25
-In the same terminal we need to read and copy the public key using the command: $ cat ~/.ssh/udacity.rsa.pub. Copy the key from the terminal.
-26
-Back in the server terminal locate the folder for the user grader, it should be /home/grader. Run the command $ cd /home/grader to move to the folder.
-27
-Create a directory called .ssh with the command $ mkdir .ssh
-28
-Create a file to store the public key with the command $ touch .ssh/authorized_keys
-29
-Edit that file using $ nano .ssh/authorized_keys
-30
+
+ install  Finger with the command:
+ sudo apt-get install finger. This tool will allow us to see the users on this server.
+
+Now we must create an SSH Key for our new user grader. 
+ $ ssh-keygen -f ~/.ssh/udacity.rsa
+
+ Copy the public key using the command: 
+ $ cat ~/.ssh/udacity.rsa.pub. Copy the key from the terminal.
+
+Back in the server terminal  
+$ cd /home/grader to move to the folder.
+
+Create a directory called .ssh with the command 
+$ mkdir .ssh
+
+Create a file to store the public key with the command 
+$ touch .ssh/authorized_keys
+
+Edit that file using 
+$ nano .ssh/authorized_keys
+
 Now paste in the public key
-31
+
 We must change the permissions of the file and its folder by running
-32
+
 $ sudo chmod 700 /home/grader/.ssh
-33
+
 $ sudo chmod 644 /home/grader/.ssh/authorized_keys 
-34
-Change the owner of the .ssh directory from root to grader by using the command $ sudo chown -R grader:grader /home/grader/.ssh
-35
-The last thing we need to do for the SSH configuration is restart its service with $ sudo service ssh restart
-36
+
+Change the owner of the .ssh directory from root to grader by using the command 
+$ sudo chown -R grader:grader /home/grader/.ssh
+
+The last thing we need to do for the SSH configuration is restart its service with 
+$ sudo service ssh restart
 Disconnect from the server
-37
-Now we need to login with the grader account using ssh. From your local terminal type $ ssh -i ~/.ssh/udacity.rsa grader@18.188.169.39
-38
-You should now be logged into your server via SSH
-39
-Lets enforce key authentication from the ssh configuration file by editing $ sudo nano /etc/ssh/sshd_config. Find the line that says PasswordAuthentication and change it to no. Also find the line that says Port 22 and change it to Port 2200. Lastly change PermitRootLogin to no.
-40
-Restart ssh again: $ sudo service ssh restart
-41
-Disconnect from the server and try step "23." again BUT also adding -p 2200 at the end this time. You should be connected.
-42
-From here we need to configure the firewall using these commands:
-43
+
+Now we need to login with the grader account using ssh. From your local terminal type 
+$ ssh -i ~/.ssh/udacity.rsa grader@54.191.206.214
+
+Configure the firewall using these commands:
 $ sudo ufw allow 2200/tcp
-44
 $ sudo ufw allow 80/tcp
-45
 $ sudo ufw allow 123/udp
-46
 $ sudo ufw enable
-47
+
 Running $ sudo ufw status should show all of the allowed ports with the firewall configuration.
-48
-That pretty much wraps up the Linux configuration, now onto the app deployment.
-49
+
 Application Deployment
-50
+
 Hosting this application will require the Python virtual environment, Apache with mod_wsgi, PostgreSQL, and Git.
-51
-​
-52
+
 Start by installing the required software
-53
+
 $ sudo apt-get install apache2
-54
 $ sudo apt-get install libapache2-mod-wsgi python-dev
-55
 $ sudo apt-get install git
-56
+
 Enable mod_wsgi with the command $ sudo a2enmod wsgi and restart Apache using $ sudo service apache2 restart.
-57
-If you input the servers IP address into a web browser you'll see the Apache2 Ubuntu Default Page
-58
-We now have to create a directory for our catalog application and make the user grader the owner.
-59
+
+Create a directory for our catalog application and make the user grader the owner.
+
 $ cd /var/www
-60
+
 $ sudo mkdir catalog
-61
+
 $ sudo chown -R grader:grader catalog
-62
+
 $ cd catalog
-63
+
 In this directory we will have our catalog.wsgi file var/www/catalog/catalog.wsgi, our virtual environment directory which we will create soon and call venv /var/www/catalog/venv, and also our application which will sit inside of another directory called catalog /var/www/catalog/catalog.
+clone our Catalog Application repository by $ git clone [https://github.com/simiagarwal/Catalog-Final.git] catalog
+Create the .wsgi file by $ sudo nano catalog.wsgi and make sure your secret key matches with your project secret key
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0, "/var/www/catalog/")
+
+from catalog import app as application
+application.secret_key = 'super_secret_key'
+Rename your application.py, project.py, or whatever you called it in your catalog application folder to __init__.py by $ mv project.py __init__.py
+Now lets create our virtual environment, make sure you are in /var/www/catalog.
+$ sudo pip install virtualenv
+$ sudo virtualenv venv
+$ source venv/bin/activate
+$ sudo chmod -R 777 venv
+While our virtual environment is activated we need to install all packages required for our Flask application. Here are some defaults but you may have more to install.
+$ sudo apt-get install python-pip
+$ sudo pip install flask
+$ sudo pip install httplib2 oauth2client sqlalchemy psycopg2 #etc...
+Time to configure and enable our virtual host to run the site
+
+$ sudo nano /etc/apache2/sites-available/catalog.conf
+Paste in the following:
+
+<VirtualHost *:80>
+    ServerName 54.191.206.214
+    ServerAlias ec2-54-191-206-214.us-west-2.compute.amazonaws.com
+    ServerAdmin admin@54.191.206.214
+    WSGIDaemonProcess catalog python-path=/var/www/catalog:/var/www/catalog/venv/lib/python2.7/site-packages
+    WSGIProcessGroup catalog
+    WSGIScriptAlias / /var/www/catalog/catalog.wsgi
+    <Directory /var/www/catalog/catalog/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    Alias /static /var/www/catalog/catalog/static
+    <Directory /var/www/catalog/catalog/static/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+Enable to virtual host: $ sudo a2ensite catalog.conf 
+DISABLE the default host $ a2dissite 000-default.conf 
+
+The final step is setting up the database
+
+$ sudo apt-get install libpq-dev python-dev
+$ sudo apt-get install postgresql postgresql-contrib
+$ sudo su - postgres -i
+$ psql
+Create a database user and password
+postgres=# CREATE USER catalog WITH PASSWORD [password];
+postgres=# ALTER USER catalog CREATEDB;
+postgres=# CREATE DATABASE catalog with OWNER catalog;
+postgres=# \c catalog
+catalog=# REVOKE ALL ON SCHEMA public FROM public;
+catalog=# GRANT ALL ON SCHEMA public TO catalog;
+catalog=# \q
+$ exit
+
+
+Now use nano again to edit your__init__.py, database_setup.py, and createitems.py files to change the database engine from sqlite://catalog.db to postgresql://username:password@localhost/catalog enter image description here
+
+Restart your apache server $ sudo service apache2 restart and now your IP address and hostname should both load your application.
+
+References:
+https://github.com/callforsky/udacity-linux-configuration
+
