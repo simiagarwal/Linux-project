@@ -31,6 +31,10 @@ $ sudo apt-get dist-upgrade
  install  Finger with the command:
  sudo apt-get install finger. This tool will allow us to see the users on this server.
 
+Configure cron scripts to automatically manage package updates
+Install unattended-upgrades if not already installed: $ sudo apt-get install unattended-upgrades.
+To enable it, do: $ sudo dpkg-reconfigure --priority=low unattended-upgrades.
+
 Now we must create an SSH Key for our new user grader. 
  $ ssh-keygen -f ~/.ssh/udacity.rsa
 
@@ -164,7 +168,7 @@ catalog=# \q
 $ exit
 
 
-Now use nano again to edit your__init__.py, database_setup.py, and createitems.py files to change the database engine from sqlite://catalog.db to postgresql://username:password@localhost/catalog enter image description here
+Now use nano again to edit your__init__.py, database_setup.py, and createitems.py files to change the database engine from sqlite://catalog.db to postgresql://username:password@localhost/catalog.
 
 Restart your apache server $ sudo service apache2 restart and now your IP address and hostname should both load your application.
 
