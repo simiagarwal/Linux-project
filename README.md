@@ -1,26 +1,26 @@
 
-Linux-project
+# Linux-project
 
-Description:
+## Description:
 
 This project is to deploy a Flask application using Ubuntu and Apache with Amazon Lightsail.
 
-IP & Hostname
+### IP & Hostname
 
 Host Name: ec2-54-191-206-214.us-west-2.compute.amazonaws.com
 
 IP Address: 54.191.206.214
 
-Linux Configuration
+### Linux Configuration
 
 
- Create a user called grader. 
+###### Create a user called grader. 
  $ sudo adduser grader. 
-create a file to give the user grader superuser privileges.  
+###### create a file to give the user grader superuser privileges.  
 $ sudo nano /etc/sudoers.d/grader. T. 
 When nano opens type grader ALL=(ALL:ALL)
 
-Updating package list, upgrading the current packages, and install new updates with these three commands:
+###### Updating package list, upgrading the current packages, and install new updates with these three commands:
 
 $ sudo apt-get update
 
@@ -28,10 +28,10 @@ $ sudo apt-get upgrade
 
 $ sudo apt-get dist-upgrade
 
- install  Finger with the command:
+###### Install  Finger with the command:
  sudo apt-get install finger. This tool will allow us to see the users on this server.
 
-Configure cron scripts to automatically manage package updates
+###### Configure cron scripts to automatically manage package updates
 Install unattended-upgrades if not already installed: $ sudo apt-get install unattended-upgrades.
 To enable it, do: $ sudo dpkg-reconfigure --priority=low unattended-upgrades.
 
@@ -71,7 +71,7 @@ Disconnect from the server
 Now we need to login with the grader account using ssh. From your local terminal type 
 $ ssh -i ~/.ssh/udacity.rsa grader@54.191.206.214
 
-Configure the firewall using these commands:
+###### Configure the firewall using these commands:
 $ sudo ufw allow 2200/tcp
 $ sudo ufw allow 80/tcp
 $ sudo ufw allow 123/udp
@@ -79,7 +79,7 @@ $ sudo ufw enable
 
 Running $ sudo ufw status should show all of the allowed ports with the firewall configuration.
 
-Application Deployment
+##### Application Deployment
 
 Hosting this application will require the Python virtual environment, Apache with mod_wsgi, PostgreSQL, and Git.
 
@@ -151,7 +151,7 @@ Paste in the following:
 Enable to virtual host: $ sudo a2ensite catalog.conf 
 DISABLE the default host $ a2dissite 000-default.conf 
 
-The final step is setting up the database
+##### The final step is setting up the database
 
 $ sudo apt-get install libpq-dev python-dev
 $ sudo apt-get install postgresql postgresql-contrib
@@ -172,6 +172,6 @@ Now use nano again to edit your__init__.py, database_setup.py, and createitems.p
 
 Restart your apache server $ sudo service apache2 restart and now your IP address and hostname should both load your application.
 
-References:
+###### References:
 https://github.com/callforsky/udacity-linux-configuration
 
