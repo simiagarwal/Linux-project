@@ -41,7 +41,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-
+"""Route to login"""
 @app.route('/login')
 def showLogin():
     state = ' '.join(random.choice(
