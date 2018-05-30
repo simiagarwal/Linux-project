@@ -9,7 +9,7 @@ from passlib.apps import custom_app_context as pwd_context
 import datetime
 Base = declarative_base()
 
-
+# creating a user class
 class User(Base):
     __tablename__ = 'user'
 
@@ -28,7 +28,7 @@ class User(Base):
     def generate_auth_token(self, expiration=600):
         s = Serializer(secret_key, expires_in=expiration)
         return s.dumps({'id': self.id})
-
+# verifing the token
     @staticmethod
     def verify_auth_token(token):
         s = Serializer(secret_key)
@@ -43,6 +43,7 @@ class User(Base):
         user_id = data['id']
         return user_id
 
+# creating a category class
 
 class Category(Base):
 
@@ -61,7 +62,7 @@ class Category(Base):
 
             'id': self.id
         }
-
+# creating an item class
 
 class Item(Base):
     __tablename__ = 'item'
